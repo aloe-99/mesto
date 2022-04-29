@@ -1,0 +1,13 @@
+.elements__like-button {
+  min-width: 22px;
+  height: 19px;
+  padding: 0;
+  margin-left: 30px;
+  border: none;
+  background-color: #fff;
+  transition: opacity 0.6s linear;
+}
+
+.elements__like-button:hover {
+  opacity: 0.5;
+}
