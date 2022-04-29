@@ -6,6 +6,7 @@
   border: none;
   background-color: #fff;
   transition: opacity 0.6s linear;
+  cursor: pointer;
 }
 
 .elements__like-button:hover {

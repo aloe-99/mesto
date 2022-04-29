@@ -13,9 +13,9 @@
 
     <main class="content">
       <section class="profile">
-        <img class="profile__avatar" src="images/profile/profile__avatar.jpg" alt="Фотопортрет Жака-Ива Кусто">
+        <img class="profile__avatar" src="images/profile/profile__avatar.jpg" alt="Аватар профиля">
         <div class="profile__info">
-          <h2 class="profile__name">Жак-Ив Кусто</h2>
+          <h1 class="profile__name">Жак-Ив Кусто</h1>
           <p class="profile__text">Исследователь океана</p>
           <button type="button" class="profile__edit-button">
             <img class="profile__edit-image" src="images/profile/profile__edit-button.svg" alt="Иконка редактирования">
@@ -84,10 +84,10 @@
       </section>
       <div class="popup">
         <div class="popup__item">
-          <h1 class="popup__header">Редактировать профиль</h1>
-          <form class="popup__form">
-            <input class="popup__input popup__name" type="text">
-            <input class="popup__input popup__text" type="text">
+          <h2 class="popup__header">Редактировать профиль</h2>
+          <form class="popup__form" name="edit-form">
+            <input class="popup__input popup__input_edit_name" name="edit-name" type="text">
+            <input class="popup__input popup__input_edit_text" name="edit-job" type="text">
             <button type="submit" class="popup__save-button">
               <span class="popup__save-text">Сохранить</span>
             </button>
