@@ -30,3 +30,48 @@ editBtn.addEventListener('click', popupOpen);
 closeBtn.addEventListener('click', popupClose);
 
 formElement.addEventListener('submit', formSubmitHandler);
+
+
+
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
+
+const elements = document.querySelector('.elements');
+const cardTemplate = document.querySelector('#card').content;
+
+function addCards(arr) {  // загружает карточки при загрузке страницы
+  for (let i = 0; i < arr.length; i++) {
+    const elementsItem = cardTemplate.querySelector('.elements__item').cloneNode(true);
+    elementsItem.querySelector('.elements__image').src = arr[i].link;
+    elementsItem.querySelector('.elements__image').alt = arr[i].name;
+    elementsItem.querySelector('.elements__name').textContent = arr[i].name;
+    elements.append(elementsItem);
+  }
+}
+
+addCards(initialCards);
