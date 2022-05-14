@@ -29,27 +29,41 @@
       <section class="elements">
         <template id="card">
           <div class="elements__item">
+            <button class="elements__delete-btn" type="button"></button>
             <img class="elements__image" src="#" alt="#">
             <div class="elements__group">
               <h2 class="elements__name">#</h2>
-              <button type="button" class="elements__like-button">
-                <img class="elements__like-image" src="images/elements/elements__like-button.svg" alt="Кнопка лайк">
-              </button>
+              <button type="button" class="elements__like-button"></button>
             </div>
           </div>
         </template>
       </section>
-      <div class="popup">
+      <div class="popup" id="edit">
         <div class="popup__item">
           <h2 class="popup__header">Редактировать профиль</h2>
-          <form class="popup__form" name="edit-form">
-            <input class="popup__input popup__input_edit_name" name="edit-name" type="text">
-            <input class="popup__input popup__input_edit_text" name="edit-job" type="text">
-            <button type="submit" class="popup__save-button">
+          <form class="popup__form" name="edit-form" id="edit-form">
+            <input class="popup__input popup__input_edit_name" name="edit-name" type="text" id="profName">
+            <input class="popup__input popup__input_edit_text" name="edit-job" type="text" id="profJob">
+            <button type="submit" class="popup__save-button" id="saveBtn">
               <span class="popup__save-text">Сохранить</span>
             </button>
           </form>
-          <button type="button" class="popup__close-button">
+          <button type="button" class="popup__close-button" id="closeBtn">
+            <img class="popup__close-image" src="images/popup/close-Icon.svg" alt="Закрыть">
+          </button>
+        </div>
+      </div>
+      <div class="popup" id="add">
+        <div class="popup__item">
+          <h2 class="popup__header">Новое место</h2>
+          <form class="popup__form" name="add-form" id="add-form">
+            <input class="popup__input popup__input_edit_name" name="add-name" type="text" placeholder="Название" id="mesto">
+            <input class="popup__input popup__input_edit_text" name="add-link" type="text" placeholder="Ссылка на картинку" id="mesto-image">
+            <button type="submit" class="popup__save-button">
+              <span class="popup__save-text">Создать</span>
+            </button>
+          </form>
+          <button type="button" class="popup__close-button" id="closeAdd">
             <img class="popup__close-image" src="images/popup/close-Icon.svg" alt="Закрыть">
           </button>
         </div>
