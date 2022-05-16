@@ -13,7 +13,8 @@ const nameInput = formElement.querySelector('#prof-name');
 const jobInput = formElement.querySelector('#prof-job');
 const mestoInput = formElementAdd.querySelector('#mesto');
 const imageInput = formElementAdd.querySelector('#mesto-image');
-
+const mestoImage = popupImage.querySelector('.popup__image');
+const mestoName = popupImage.querySelector('.popup__text');
 
 function openPopup(popup) {  // Открывает попап
   popup.classList.add('popup_opened');
@@ -51,12 +52,10 @@ function handleProfileFormSubmit (evt) {  // Заменяет текущие з�
 formElement.addEventListener('submit', handleProfileFormSubmit);
 
 
-function createImagePopup() {  //создает попап для карточки
-  const img = popupImage.querySelector('.popup__image');
-  const txt = popupImage.querySelector('.popup__text');
-  img.src = cardImage.src;
-  img.alt = cardImage.alt;
-  txt.textContent = cardImage.alt;
+function createImagePopup(mesto, img) {  //создает попап для карточки
+  mestoImage.src = img;
+  mestoImage.alt = mesto;
+  mestoName.textContent = mesto;
 }
 
 
@@ -101,7 +100,7 @@ function createCard(image, name) {  // создает карточку
   cardImage.src = image;
   cardImage.alt = name;
   cardImage.addEventListener('click', () => {
-    createImagePopup();
+    createImagePopup(name, image);
     openPopup(popupImage);
   });
   card.querySelector('.elements__name').textContent = name;
@@ -127,6 +126,8 @@ function addNewCard(evt) {
   evt.preventDefault();
   elements.prepend(createCard(imageInput.value, mestoInput.value));
   closePopup(popupAdd);
+  imageInput.value = "";
+  mestoInput.value = "";
 }
 
 formElementAdd.addEventListener('submit', addNewCard);
