@@ -16,12 +16,20 @@ const imageInput = formElementAdd.querySelector('#mesto-image');
 const mestoImage = popupImage.querySelector('.popup__image');
 const mestoName = popupImage.querySelector('.popup__text');
 
+function escClose(evt) {  // закрывает попап если нажать ESC
+  if (evt.key === 'Escape') {
+    closePopup(evt.target.querySelector('.popup_opened'));
+  }
+}
+
 function openPopup(popup) {  // Открывает попап
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', escClose);
 }
 
 function closePopup(popup) {  // Закрывает попап
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', escClose);
 }
 
 popups.forEach((popup) => {
@@ -37,14 +45,6 @@ popups.forEach((popup) => {
       }
     } else if (evt.target !== mestoImage) {
       closePopup(popup);
-    }
-  });
-  document.addEventListener('keydown', (evt) => {  // закрывает попап если нажать ESC
-    console.log(evt);
-    if (popup.classList.contains('popup_opened')) {
-      if (evt.key === 'Escape') {
-        closePopup(popup);
-      }
     }
   });
 });
