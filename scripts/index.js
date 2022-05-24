@@ -26,8 +26,18 @@ function closePopup(popup) {  // Закрывает попап
 
 popups.forEach((popup) => {
   const closeBtn = popup.querySelector('.popup__close-button');
-  closeBtn.addEventListener('click', () => {
-     closePopup(popup);
+  const popupItem = popup.querySelector('.popup__item');
+
+  popup.addEventListener('click', (evt) =>  {
+    if (closeBtn.contains(evt.target)) { // проверяет нажимают ли кнопку закрытия
+      closePopup(popup);
+    } else if (popup.contains(popupItem)) { // проверяет какой тип попапа и нажимают ли на оверлей
+      if (!popupItem.contains(evt.target)) {
+        closePopup(popup);
+      }
+    } else if (evt.target !== mestoImage) {
+      closePopup(popup);
+    }
   });
 });
 
