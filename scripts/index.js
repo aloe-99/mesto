@@ -29,14 +29,22 @@ popups.forEach((popup) => {
   const popupItem = popup.querySelector('.popup__item');
 
   popup.addEventListener('click', (evt) =>  {
-    if (closeBtn.contains(evt.target)) { // проверяет нажимают ли кнопку закрытия
+    if (closeBtn.contains(evt.target)) { // закрывает попап нажатием кнопки закрытия
       closePopup(popup);
-    } else if (popup.contains(popupItem)) { // проверяет какой тип попапа и нажимают ли на оверлей
+    } else if (popup.contains(popupItem)) { // закрывает попап если нажать на оверлей
       if (!popupItem.contains(evt.target)) {
         closePopup(popup);
       }
     } else if (evt.target !== mestoImage) {
       closePopup(popup);
+    }
+  });
+  document.addEventListener('keydown', (evt) => {  // закрывает попап если нажать ESC
+    console.log(evt);
+    if (popup.classList.contains('popup_opened')) {
+      if (evt.key === 'Escape') {
+        closePopup(popup);
+      }
     }
   });
 });
