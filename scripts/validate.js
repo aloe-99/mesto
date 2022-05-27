@@ -8,7 +8,7 @@ const validityConfig = ({
   inputErrorClass: 'popup__input_type_error',
 });
 
-function isInvalidInput(evt) {
+const isInvalidInput = (evt) => {
   return !evt.target.validity.valid;
 }
 
@@ -42,20 +42,28 @@ function enableButton (config, button, buttonText) {
   buttonText.classList.remove(config.inactiveButtonText);
 }
 
+function toggleButton (inputList, config, button, buttonText) {
+  if (inputList[0].validity.valid && inputList[1].validity.valid) {
+    enableButton(config, button, buttonText);
+  } else {
+    disableButton(config, button, buttonText);
+  }
+}
+
 function setEventListeners (config) {
   const inputs = document.querySelectorAll(config.inputSelector);
   inputs.forEach((inputElem) => {
     inputElem.addEventListener('input', (evt) => {
       const activeForm = evt.target.parentNode;
+      const formInputs = Array.from(activeForm.querySelectorAll(config.inputSelector));
       const saveButton = activeForm.querySelector(config.submitButtonSelector);
       const saveButtonText = saveButton.querySelector(config.submitButtonText);
       if (isInvalidInput(evt)) {
         inputError(evt, config);
-        disableButton(config, saveButton, saveButtonText);
       } else {
         removeInputError(evt, config);
-        enableButton(config, saveButton, saveButtonText);
       }
+      toggleButton(formInputs, config, saveButton, saveButtonText);
     });
   });
 }
