@@ -18,7 +18,7 @@ const mestoName = popupImage.querySelector('.popup__text');
 
 function escClose(evt) {  // закрывает попап если нажать ESC
   if (evt.key === 'Escape') {
-    closePopup(evt.target.querySelector('.popup_opened'));
+    closePopup(document.querySelector('.popup_opened'));
   }
 }
 
