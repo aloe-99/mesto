@@ -7,16 +7,16 @@ const popupAdd = document.querySelector('#add');
 const popupImage = document.querySelector('#image');
 const profileName = document.querySelector('.profile__name');
 const profileText = document.querySelector('.profile__text');
-const formElement = document.querySelector('#edit-form');
-const formElementAdd = document.querySelector('#add-form');
-const nameInput = formElement.querySelector('#prof-name');
-const jobInput = formElement.querySelector('#prof-job');
-const mestoInput = formElementAdd.querySelector('#mesto');
-const imageInput = formElementAdd.querySelector('#mesto-image');
+const profileForm = document.querySelector('#edit-form');
+const addCardForm = document.querySelector('#add-form');
+const nameInput = profileForm.querySelector('#prof-name');
+const jobInput = profileForm.querySelector('#prof-job');
+const mestoInput = addCardForm.querySelector('#mesto');
+const imageInput = addCardForm.querySelector('#mesto-image');
 const mestoImage = popupImage.querySelector('.popup__image');
 const mestoName = popupImage.querySelector('.popup__text');
 
-function escClose(evt) {  // закрывает попап если нажать ESC
+function handleEscKey(evt) {  // закрывает попап если нажать ESC
   if (evt.key === 'Escape') {
     closePopup(document.querySelector('.popup_opened'));
   }
@@ -24,12 +24,12 @@ function escClose(evt) {  // закрывает попап если нажать
 
 function openPopup(popup) {  // Открывает попап
   popup.classList.add('popup_opened');
-  document.addEventListener('keydown', escClose);
+  document.addEventListener('keydown', handleEscKey);
 }
 
 function closePopup(popup) {  // Закрывает попап
   popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', escClose);
+  document.removeEventListener('keydown', handleEscKey);
 }
 
 popups.forEach((popup) => {
@@ -67,7 +67,7 @@ function handleProfileFormSubmit (evt) {  // Заменяет текущие з�
   closePopup(popupEdt);    
 }
 
-formElement.addEventListener('submit', handleProfileFormSubmit);
+profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 
 function createImagePopup(mesto, img) {  //создает попап для карточки
@@ -106,15 +106,15 @@ const initialCards = [
 
 const cardTemplate = document.querySelector('#card').content;
 
-const likeClick = (evt) => {
+const toggleLike = (evt) => {
   evt.target.classList.toggle('elements__like-button_active');
 }
 
 
 function createCard(image, name) {  // создает карточку
   const card = cardTemplate.querySelector('.elements__item').cloneNode(true);
-  deleteBtn = card.querySelector('.elements__delete-btn');
-  cardImage = card.querySelector('.elements__image');
+  const deleteBtn = card.querySelector('.elements__delete-btn');
+  const cardImage = card.querySelector('.elements__image');
   cardImage.src = image;
   cardImage.alt = name;
   cardImage.addEventListener('click', () => {
@@ -124,7 +124,7 @@ function createCard(image, name) {  // создает карточку
   card.querySelector('.elements__name').textContent = name;
   const likeBtn = card.querySelector('.elements__like-button');
   
-  likeBtn.addEventListener('click', likeClick);
+  likeBtn.addEventListener('click', toggleLike);
   deleteBtn.addEventListener('click', () => {
     card.remove();
   });
@@ -144,8 +144,12 @@ function addNewCard(evt) {
   evt.preventDefault();
   elements.prepend(createCard(imageInput.value, mestoInput.value));
   closePopup(popupAdd);
-  imageInput.value = "";
-  mestoInput.value = "";
+  addCardForm.reset();
+  const popupBtn = addCardForm.querySelector('.popup__save-button');
+  const popupBtnText = popupBtn.querySelector('.popup__save-text');
+  popupBtnText.classList.add('popup__save-text_disabled');
+  popupBtn.classList.add('popup__save-button_disabled');
+  popupBtn.disabled = true;
 }
 
-formElementAdd.addEventListener('submit', addNewCard);
+addCardForm.addEventListener('submit', addNewCard);
