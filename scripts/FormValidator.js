@@ -1,23 +1,22 @@
 export class FormValidator {
   constructor(config, formID) {
-  this._formSelector = config.formSelector,
-  this._inputSelector = config.inputSelector,
-  this._submitButtonSelector = config.submitButtonSelector,
-  this._submitButtonText = config.submitButtonText,
-  this._inactiveButtonClass = config.inactiveButtonClass,
-  this._inactiveButtonText = config.inactiveButtonText,
-  this._inputErrorClass = config.inputErrorClass
-  this._formID = formID;
+    this._inputSelector = config.inputSelector;
+    this._submitButtonSelector = config.submitButtonSelector;
+    this._submitButtonText = config.submitButtonText;
+    this._inactiveButtonClass = config.inactiveButtonClass;
+    this._inactiveButtonText = config.inactiveButtonText;
+    this._inputErrorClass = config.inputErrorClass;
+    this._formID = document.querySelector(formID);
   }
 
   _showInputError(inputElement, errorMessage) {
-    const errorElement = document.querySelector(this._formID).querySelector(`.${inputElement.id}-error`);
+    const errorElement = this._formID.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.add(this._inputErrorClass);
     errorElement.textContent = errorMessage;
   }
 
   _hideInputError(inputElement) {
-    const errorElement = document.querySelector(this._formID).querySelector(`.${inputElement.id}-error`);
+    const errorElement = this._formID.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.remove(this._inputErrorClass);
     errorElement.textContent = '';
   }
@@ -48,9 +47,15 @@ export class FormValidator {
     }
   }
 
+  disableFormBtn(popupBtn, popupBtnText) {
+    popupBtnText.classList.add(this._inactiveButtonText);
+    popupBtn.classList.add(this._inactiveButtonClass);
+    popupBtn.disabled = true;
+  }
+
   _setEventListeners() {
-    const inputList = Array.from(document.querySelector(this._formID).querySelectorAll(this._inputSelector)); // создает массив из всех инпутов формы
-    const buttonElement = document.querySelector(this._formID).querySelector(this._submitButtonSelector);
+    const inputList = Array.from(this._formID.querySelectorAll(this._inputSelector)); // создает массив из всех инпутов формы
+    const buttonElement = this._formID.querySelector(this._submitButtonSelector);
     const buttonText = buttonElement.querySelector(this._submitButtonText);
     this._toggleButtonState(inputList, buttonElement, buttonText);
     inputList.forEach((inputElement) => {  // вешает на каждый инпут формы обработчик событий, который проверяет валидность поля после любого ввода, и включает/выключает кнопку
@@ -62,9 +67,9 @@ export class FormValidator {
   }
 
   enableValidation() {
-      document.querySelector(this._formID).addEventListener('submit', function (evt) {
-        evt.preventDefault();
-      });
+    this._formID.addEventListener('submit', function (evt) {
+      evt.preventDefault();
+    });
     this._setEventListeners();
   }
 }

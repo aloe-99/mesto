@@ -3,7 +3,7 @@ import {FormValidator} from './FormValidator.js';
 import {initialCards, validityConfig} from './const.js';
 
 const popups = document.querySelectorAll('.popup');
-const elements = document.querySelector('.elements');
+const cardList = document.querySelector('.elements');
 const editBtn = document.querySelector('.profile__edit-button');
 const addBtn = document.querySelector('.profile__add-button');
 const popupEdt = document.querySelector('#edit');
@@ -11,8 +11,8 @@ const popupAdd = document.querySelector('#add');
 const popupImage = document.querySelector('#image');
 const profileName = document.querySelector('.profile__name');
 const profileText = document.querySelector('.profile__text');
-const profileForm = document.querySelector('#edit-form');
-const addCardForm = document.querySelector('#add-form');
+const profileForm = popupEdt.querySelector('#edit-form');
+const addCardForm = popupAdd.querySelector('#add-form');
 const nameInput = profileForm.querySelector('#prof-name');
 const jobInput = profileForm.querySelector('#prof-job');
 const mestoInput = addCardForm.querySelector('#mesto');
@@ -79,7 +79,7 @@ initialCards.forEach((obj) => {  // создает стартовые карто
   const card = new Card(obj, '#card');
   const newCard = card.generateCard();
 
-  elements.append(newCard);
+  cardList.append(newCard);
 });
 
 
@@ -92,14 +92,12 @@ function addNewCard(evt) {
   }
   const card = new Card(newData, '#card');
   const newCard = card.generateCard();
-  elements.prepend(newCard);
+  cardList.prepend(newCard);
   closePopup(popupAdd);
   addCardForm.reset();
   const popupBtn = addCardForm.querySelector('.popup__save-button');
   const popupBtnText = popupBtn.querySelector('.popup__save-text');
-  popupBtnText.classList.add('popup__save-text_disabled');
-  popupBtn.classList.add('popup__save-button_disabled');
-  popupBtn.disabled = true;
+  addFormValidator.disableFormBtn(popupBtn, popupBtnText);
 }
 
 addCardForm.addEventListener('submit', addNewCard);
@@ -108,3 +106,5 @@ const edtFormValidator = new FormValidator(validityConfig, '#edit-form');
 edtFormValidator.enableValidation();
 const addFormValidator = new FormValidator(validityConfig, '#add-form');
 addFormValidator.enableValidation();
+
+export {openPopup, popupImage, mestoName, mestoImage};
