@@ -1,4 +1,4 @@
-import { openPopup, popupImage, mestoName, mestoImage } from "./index.js";
+import { openPopup, popupImage, mestoName, mestoImage } from "./utils.js";
 
 export class Card {
   constructor(data, cardSelector) {
@@ -26,6 +26,7 @@ export class Card {
       evt.target.classList.toggle('elements__like-button_active');
     });
     this._element.querySelector('.elements__delete-btn').addEventListener('click', () => {
+      this._element.remove()
       this._element = null;
     });
     }

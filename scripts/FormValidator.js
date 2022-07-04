@@ -6,17 +6,17 @@ export class FormValidator {
     this._inactiveButtonClass = config.inactiveButtonClass;
     this._inactiveButtonText = config.inactiveButtonText;
     this._inputErrorClass = config.inputErrorClass;
-    this._formID = document.querySelector(formID);
+    this._form = document.querySelector(formID);
   }
 
   _showInputError(inputElement, errorMessage) {
-    const errorElement = this._formID.querySelector(`.${inputElement.id}-error`);
+    const errorElement = this._form.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.add(this._inputErrorClass);
     errorElement.textContent = errorMessage;
   }
 
   _hideInputError(inputElement) {
-    const errorElement = this._formID.querySelector(`.${inputElement.id}-error`);
+    const errorElement = this._form.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.remove(this._inputErrorClass);
     errorElement.textContent = '';
   }
@@ -47,15 +47,15 @@ export class FormValidator {
     }
   }
 
-  disableFormBtn(popupBtn, popupBtnText) {
-    popupBtnText.classList.add(this._inactiveButtonText);
-    popupBtn.classList.add(this._inactiveButtonClass);
-    popupBtn.disabled = true;
+  disableFormBtn() {
+    this._form.querySelector(this._submitButtonText).classList.add(this._inactiveButtonText);
+    this._form.querySelector(this._submitButtonSelector).classList.add(this._inactiveButtonClass);
+    this._form.querySelector(this._submitButtonSelector).disabled = true;
   }
 
   _setEventListeners() {
-    const inputList = Array.from(this._formID.querySelectorAll(this._inputSelector)); // создает массив из всех инпутов формы
-    const buttonElement = this._formID.querySelector(this._submitButtonSelector);
+    const inputList = Array.from(this._form.querySelectorAll(this._inputSelector)); // создает массив из всех инпутов формы
+    const buttonElement = this._form.querySelector(this._submitButtonSelector);
     const buttonText = buttonElement.querySelector(this._submitButtonText);
     this._toggleButtonState(inputList, buttonElement, buttonText);
     inputList.forEach((inputElement) => {  // вешает на каждый инпут формы обработчик событий, который проверяет валидность поля после любого ввода, и включает/выключает кнопку
@@ -67,7 +67,7 @@ export class FormValidator {
   }
 
   enableValidation() {
-    this._formID.addEventListener('submit', function (evt) {
+    this._form.addEventListener('submit', function (evt) {
       evt.preventDefault();
     });
     this._setEventListeners();
