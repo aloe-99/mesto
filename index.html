@@ -39,7 +39,7 @@
         </template>
       </section>
       <div class="popup popup_dark" id="image">
-        <div class="popup__container">
+        <div class="popup__container popup__target">
           <img class="popup__image" src="#" alt="#">
           <button type="button" class="popup__close-button" id="close-image-btn">
             <img class="popup__close-image" src="images/popup/close-Icon.svg" alt="Закрыть">
@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="popup" id="edit">
-        <div class="popup__item">
+        <div class="popup__item popup__target">
           <h2 class="popup__header">Редактировать профиль</h2>
           <form class="popup__form" name="edit-form" id="edit-form" novalidate>
             <input class="popup__input popup__input_edit_name" name="edit-name" type="text" id="prof-name" minlength="2" maxlength="40" required>
@@ -65,7 +65,7 @@
         </div>
       </div>
       <div class="popup" id="add">
-        <div class="popup__item">
+        <div class="popup__item popup__target">
           <h2 class="popup__header">Новое место</h2>
           <form class="popup__form" name="add-form" id="add-form" novalidate>
             <input class="popup__input popup__input_edit_name" name="add-name" type="text" placeholder="Название" id="mesto" minlength="2" maxlength="30" required>
@@ -85,6 +85,6 @@
     <footer class="footer">
       <p class="footer__text">&copy; 2020 Mesto Russia</p>
     </footer>
-    <script type="module" src="scripts/index.js"></script>
+    <script type="module" src="pages/index.js"></script>
   </body>
 </html>

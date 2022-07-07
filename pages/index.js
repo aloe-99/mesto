@@ -1,7 +1,9 @@
-import {Card} from './Card.js';
-import {FormValidator} from './FormValidator.js';
-import {initialCards, validityConfig} from './const.js';
-import { openPopup, popupImage, mestoName, mestoImage, closePopup } from "./utils.js";
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
+import Popup from '../components/Popup.js';
+import {initialCards, validityConfig} from '../utils/const.js';
+import PopupWithImage from '../components/PopupWithImage.js';
 
 const popups = document.querySelectorAll('.popup');
 const cardList = document.querySelector('.elements');
@@ -19,32 +21,55 @@ const mestoInput = addCardForm.querySelector('#mesto');
 const imageInput = addCardForm.querySelector('#mesto-image');
 
 
+const popupEdit = new Popup('#edit');
+const popupWithAdd = new Popup('#add');
+const popupWithImage = new PopupWithImage('#image');
 
-popups.forEach((popup) => {
-  const closeBtn = popup.querySelector('.popup__close-button');
-  const popupItem = popup.querySelector('.popup__item');
 
-  popup.addEventListener('click', (evt) =>  {
-    if (closeBtn.contains(evt.target)) { // закрывает попап нажатием кнопки закрытия
-      closePopup(popup);
-    } else if (popup.contains(popupItem)) { // закрывает попап если нажать на оверлей
-      if (!popupItem.contains(evt.target)) {
-        closePopup(popup);
-      }
-    } else if (evt.target !== mestoImage) {
-      closePopup(popup);
+const defaultCardList = new Section(
+  {
+    items: initialCards, 
+    renderer: (item) => {
+      const card = new Card(item, '#card', (cardName, imageLink) => {popupWithImage.open(cardName, imageLink)});
+      const cardElement = card.generateCard();
+      defaultCardList.addItem(cardElement);
     }
-  });
-});
+  }, 
+  '.elements'
+);
+
+defaultCardList.renderItems();
+
+
+
+
+// popups.forEach((popup) => {
+//   const closeBtn = popup.querySelector('.popup__close-button');
+//   const popupItem = popup.querySelector('.popup__item');
+
+//   popup.addEventListener('click', (evt) =>  {
+//     if (closeBtn.contains(evt.target)) { // закрывает попап нажатием кнопки закрытия
+//       closePopup(popup);
+//     } else if (popup.contains(popupItem)) { // закрывает попап если нажать на оверлей
+//       if (!popupItem.contains(evt.target)) {
+//         closePopup(popup);
+//       }
+//     } else if (evt.target !== mestoImage) {
+//       closePopup(popup);
+//     }
+//   });
+// });
 
 editBtn.addEventListener('click', () => { 
   nameInput.value = profileName.textContent;
   jobInput.value = profileText.textContent;
-  openPopup(popupEdt);
+  popupEdit.open();
+  popupEdit.setEventListeners();
 });
 
 addBtn.addEventListener('click', () => {
-  openPopup(popupAdd);
+  popupWithAdd.open();
+  popupWithAdd.setEventListeners();
 });
 
 
@@ -52,19 +77,19 @@ function handleProfileFormSubmit (evt) {  // Заменяет текущие з�
   evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileText.textContent = jobInput.value;
-  closePopup(popupEdt);    
+  popupEdit.close();    
 }
 
 profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 
 
-initialCards.forEach((obj) => {  // создает стартовые карточки
-  const card = new Card(obj, '#card');
-  const newCard = card.generateCard();
+// initialCards.forEach((obj) => {  // создает стартовые карточки
+//   const card = new Card(obj, '#card');
+//   const newCard = card.generateCard();
 
-  cardList.append(newCard);
-});
+//   cardList.append(newCard);
+// });
 
 
 
@@ -77,7 +102,7 @@ function addNewCard(evt) {
   const card = new Card(newData, '#card');
   const newCard = card.generateCard();
   cardList.prepend(newCard);
-  closePopup(popupAdd);
+  popupWithAdd.close();
   addCardForm.reset();
   addFormValidator.disableFormBtn();
 }
