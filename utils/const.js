@@ -1,3 +1,6 @@
+const mestoInput = document.querySelector('#mesto');
+const imageInput = document.querySelector('#mesto-image');
+
 const initialCards = [ // Массив со стартовыми карточками
   {
     name: 'Архыз',
@@ -35,4 +38,4 @@ const validityConfig = ({  // объект конфигурации с селе�
   inputErrorClass: 'popup__input_type_error'
 });
 
-export {initialCards, validityConfig}
+export {initialCards, validityConfig, mestoInput, imageInput};
