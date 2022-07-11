@@ -12,7 +12,7 @@ function createCard(item) {
 
 function addNewCard(evt) {
   evt.preventDefault();
-  defaultCardList.addItem((createCard(popupWithAdd._getInputValues())));
+  defaultCardList.addItem((createCard(popupWithAdd.getInputValues())));
   addFormValidator.disableFormBtn();
 }
 

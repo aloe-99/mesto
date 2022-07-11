@@ -28,6 +28,8 @@ popupWithAdd.setEventListeners();
 
 export const popupWithImage = new PopupWithImage('#image');
 
+popupWithImage.setEventListeners();
+
 export const defaultCardList = new Section(
   {
     items: initialCards, 
