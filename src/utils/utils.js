@@ -1,15 +1,19 @@
 import Card from '../components/Card.js';
+import {popupWithAdd} from '../pages/index.js';
+import {popupWithImage} from '../pages/index.js';
+import {defaultCardList} from '../pages/index.js';
 import {addFormValidator} from '../pages/index.js'
-import { mestoInput, imageInput } from './const.js';
 
-export function addNewCard(evt) {
+function createCard(item) {
+  const card = new Card(item, '#card', (cardName, imageLink) => {popupWithImage.open(cardName, imageLink)});
+  const cardElement = card.generateCard();
+  return cardElement;
+}
+
+function addNewCard(evt) {
   evt.preventDefault();
-  const newData = {
-    name: mestoInput.value,
-    link: imageInput.value
-  }
-  const card = new Card(newData, '#card', (cardName, imageLink) => {popupWithImage.open(cardName, imageLink)});
-  const newCard = card.generateCard();
-  document.querySelector('.elements').prepend(newCard);
+  defaultCardList.addItem((createCard(popupWithAdd._getInputValues())));
   addFormValidator.disableFormBtn();
 }
+
+export { addNewCard, createCard};

@@ -1,9 +1,8 @@
 import './index.css';
-import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
 import {initialCards, validityConfig} from '../utils/const.js';
-import {addNewCard} from'../utils/utils.js';
+import {addNewCard, createCard} from'../utils/utils.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
@@ -17,26 +16,29 @@ const popupWithEdit = new PopupWithForm('#edit', (evt) => {
   userInfo.setUserInfo(popupWithEdit.formData);
 });
 
-const popupWithAdd = new PopupWithForm('#add', (evt) => {
+popupWithEdit.setEventListeners();
+
+export const popupWithAdd = new PopupWithForm('#add', (evt) => {
   evt.preventDefault();
   addNewCard(evt);
   popupWithAdd.close();
 });
 
-const popupWithImage = new PopupWithImage('#image');
+popupWithAdd.setEventListeners();
 
+export const popupWithImage = new PopupWithImage('#image');
 
-const defaultCardList = new Section(
+export const defaultCardList = new Section(
   {
     items: initialCards, 
     renderer: (item) => {
-      const card = new Card(item, '#card', (cardName, imageLink) => {popupWithImage.open(cardName, imageLink)});
-      const cardElement = card.generateCard();
-      defaultCardList.addItem(cardElement);
+      defaultCardList.addItem(createCard(item));
     }
   }, 
   '.elements'
 );
+
+popupWithImage.setEventListeners();
 
 defaultCardList.renderItems();
 
