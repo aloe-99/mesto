@@ -7,11 +7,11 @@ export default class UserInfo {
   getUserInfo() {
     const profileName = this._name.textContent;
     const profileProfText = this._prof.textContent;
-    return {firstInput: profileName, secondInput: profileProfText}
+    return {name: profileName, about: profileProfText}
   }
 
   setUserInfo(newData) {
-    this._name.textContent = newData.firstInput;
-    this._prof.textContent = newData.secondInput;
+    this._name.textContent = newData.name;
+    this._prof.textContent = newData.about;
   }
 }

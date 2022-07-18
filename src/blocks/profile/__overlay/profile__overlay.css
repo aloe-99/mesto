@@ -1,0 +1,18 @@
+.profile__overlay {
+  position: absolute;
+  top: 0; 
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: opacity 0.6s linear;
+}
+
+.profile__overlay:hover {
+  opacity: 1;
+}
