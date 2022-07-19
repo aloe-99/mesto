@@ -1,6 +1,5 @@
 import Card from '../components/Card.js';
-import {popupWithImage} from '../pages/index.js';;
-import {addFormValidator} from '../pages/index.js';
+import {popupWithImage, popupWithAdd, defaultCardList, addFormValidator} from '../pages/index.js';
 import {API} from '../pages/index.js';
 
 function createCard(item, cardType) {
@@ -13,8 +12,18 @@ function createCard(item, cardType) {
 
 function addNewCard(evt) {
   evt.preventDefault();
-  API.postCard();
-  addFormValidator.disableFormBtn();
+  API.postCard(popupWithAdd.getInputValues())
+    .then(result => {
+      defaultCardList.addItem((createCard(result, '#card')));
+      popupWithAdd.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      popupWithAdd.changeSaveText();
+      addFormValidator.disableFormBtn();
+    });
 }
 
 export { addNewCard, createCard };

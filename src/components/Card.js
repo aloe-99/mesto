@@ -1,4 +1,4 @@
-import { popupWithDecision } from "../pages/index.js";
+import { popupWithDecision, userInfo } from "../pages/index.js";
 import {API} from "../pages/index.js"
 
 export default class Card {
@@ -19,25 +19,47 @@ export default class Card {
       this._handleCardClick(this._cardName, this._imageLink);
     });
     this._element.querySelector('.elements__like-button').addEventListener('click', (evt) => {
-      evt.target.classList.toggle('elements__like-button_active');
       if (evt.target.classList.contains('elements__like-button_active')) {
-        API.addLike(this.cardId, this._element);
+        API.removeLike(this.cardId, this._element)
+        .then(result => {
+          this._element.querySelector('.elements__like-counter').textContent = result.likes.length;
+          evt.target.classList.toggle('elements__like-button_active');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       } else {
-        API.removeLike(this.cardId, this._element);
+        API.addLike(this.cardId, this._element)
+        .then(result => {
+          this._element.querySelector('.elements__like-counter').textContent = result.likes.length;
+          evt.target.classList.toggle('elements__like-button_active');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       }
     });
     if (this._element.contains(this._element.querySelector('.elements__delete-btn'))) {
       this._element.querySelector('.elements__delete-btn').addEventListener('click', (evt) => {
-        popupWithDecision.open();
-        popupWithDecision.form.addEventListener('submit', (evt) => {
-          evt.preventDefault();
-          this._removeCard();
-          popupWithDecision.close();
-          API.deleteCard(this.cardId);
-        });
+        popupWithDecision.open(this);
       });
     }
-    }
+  }
+
+  deleteCard() {
+    API.deleteCard(this.cardId)
+      .then(() => {
+        this._removeCard();
+        popupWithDecision.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        popupWithDecision.changeSaveText()
+      });
+  }
+
 
   _removeCard() {
     this._element.remove();
@@ -63,7 +85,7 @@ export default class Card {
     this._element.querySelector('.elements__like-counter').textContent = this.likes.length;
 
     this.likes.find((item) => {
-      if (item._id == 'c618fc51e5dd6c2993d73f44') {
+      if (item._id == userInfo.id) {
         this._element.querySelector('.elements__like-button').classList.add('elements__like-button_active');
       }
     });

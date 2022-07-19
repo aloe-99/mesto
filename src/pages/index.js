@@ -1,10 +1,11 @@
-import './index.css';
+// import './index.css';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
 import {validityConfig} from '../utils/const.js';
 import {addNewCard, createCard} from'../utils/utils.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithDelete from '../components/PopupWithDelete.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js'
 
@@ -18,16 +19,37 @@ export const API = new Api({
   }
 });
 
-API.getUserData();
+const getUserData = API.getUserData();
+const getInitialCards = API.getInitialCards();
+
+Promise.all([getUserData, getInitialCards])
+  .then(([userData, cards]) => {
+    userInfo.setUserInfo(userData);
+    defaultCardList.renderItems(cards);
+  })
+  .catch(err => console.log(err));
 
 
-export const userInfo = new UserInfo({nameSelector: '.profile__name', profSelector: '.profile__text'});
+export const userInfo = new UserInfo({
+  nameSelector: '.profile__name', 
+  profSelector: '.profile__text', 
+  avatarSelector: '.profile__avatar-image'
+});
 
 export const popupWithEdit = new PopupWithForm('#edit', (evt) => {
   evt.preventDefault();
   popupWithEdit.changeSaveTextInProcess();
-  API.editUserInfo();
-  popupWithEdit.close();
+  API.editUserInfo(popupWithEdit.getInputValues())
+    .then((result) => {
+      userInfo.setUserInfo(result);
+      popupWithEdit.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      popupWithEdit.changeSaveText()
+    });
 });
 
 popupWithEdit.setEventListeners();
@@ -36,7 +58,6 @@ export const popupWithAdd = new PopupWithForm('#add', (evt) => {
   evt.preventDefault();
   popupWithAdd.changeSaveTextInProcess();
   addNewCard(evt);
-  popupWithAdd.close();
 });
 
 popupWithAdd.setEventListeners();
@@ -45,8 +66,9 @@ export const popupWithImage = new PopupWithImage('#image');
 
 popupWithImage.setEventListeners();
 
-export const popupWithDecision = new PopupWithForm('#decision', (evt) => {
+export const popupWithDecision = new PopupWithDelete('#decision', (evt) => {
   evt.preventDefault();
+  popupWithDecision.card.deleteCard();
   popupWithDecision.changeSaveTextInProcess();
 });
 
@@ -55,8 +77,17 @@ popupWithDecision.setEventListeners();
 export const popupWithAvatar = new PopupWithForm('#avatar', (evt) => {
   evt.preventDefault();
   popupWithAvatar.changeSaveTextInProcess();
-  API.editAvatar(popupWithAvatar.form.querySelector('.popup__input').value);
-  popupWithAvatar.close();
+  API.editAvatar(popupWithAvatar.form.querySelector('.popup__input').value)
+    .then(result => {
+      document.querySelector('.profile__avatar-image').src = result.avatar;
+      popupWithAvatar.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      popupWithAvatar.changeSaveText()
+    });
 });
 
 popupWithAvatar.setEventListeners();
@@ -69,8 +100,6 @@ document.querySelector('.profile__avatar').addEventListener('click', () =>{
 export const defaultCardList = new Section((item) => {
     defaultCardList.addItem(createCard(item, '#initial-card'));
   }, '.elements');
-
-API.getInitialCards();
 
 popupWithImage.setEventListeners();
 
