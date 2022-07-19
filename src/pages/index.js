@@ -1,4 +1,4 @@
-// import './index.css';
+import './index.css';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
 import {validityConfig} from '../utils/const.js';
@@ -77,9 +77,10 @@ popupWithDecision.setEventListeners();
 export const popupWithAvatar = new PopupWithForm('#avatar', (evt) => {
   evt.preventDefault();
   popupWithAvatar.changeSaveTextInProcess();
-  API.editAvatar(popupWithAvatar.form.querySelector('.popup__input').value)
+  const avatarData = popupWithAvatar.getInputValues();
+  API.editAvatar(avatarData.avatar)
     .then(result => {
-      document.querySelector('.profile__avatar-image').src = result.avatar;
+      userInfo.setUserInfo(result);
       popupWithAvatar.close();
     })
     .catch((err) => {
